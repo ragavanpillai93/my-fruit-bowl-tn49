@@ -1,0 +1,37 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // 1. PRODUCTS COLLECTION
+    // Anyone can read products (public customer menu)
+    // Only authenticated admin users can create, update, or delete dishes
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    // 2. ORDERS COLLECTION
+    // Any customer can create a new order document when placing an order
+    // Only authenticated admins can read, update status, and manage orders
+    match /orders/{orderId} {
+      allow create: if request.resource.data.orderId != null && 
+                       request.resource.data.customerPhone != null;
+      allow read, update, delete: if request.auth != null;
+    }
+
+    // 3. CUSTOMERS COLLECTION
+    // Customer profile records are updated upon placing orders
+    // Only authenticated admins can read full customer directories
+    match /customers/{customerId} {
+      allow create, update: if true;
+      allow read, delete: if request.auth != null;
+    }
+
+    // 4. ADMIN USERS COLLECTION
+    // Only authenticated staff/admins can read/write admin profiles
+    match /adminUsers/{userId} {
+      allow read, write: if request.auth != null;
+    }
+
+  }
+}

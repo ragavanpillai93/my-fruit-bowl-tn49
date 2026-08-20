@@ -1,0 +1,6 @@
+{
+  "name": "My Fruit Bowl TN 49",
+  "description": "Fresh fruit bowls, protein meals, and healthy homemade meal subscriptions delivered to your door in Thanjavur, Tamil Nadu.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
